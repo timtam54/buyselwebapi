@@ -1,0 +1,329 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\buysel\\buyselwebapi\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|c:\\buysel\\buyselwebapi\\endpoint\\offerep.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|solutionrelative:endpoint\\offerep.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|c:\\buysel\\buyselwebapi\\endpoint\\offerconditionep.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|solutionrelative:endpoint\\offerconditionep.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|c:\\buysel\\buyselwebapi\\model\\offercondition.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|solutionrelative:model\\offercondition.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|c:\\buysel\\buyselwebapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|c:\\buysel\\buyselwebapi\\endpoint\\propertyep.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|solutionrelative:endpoint\\propertyep.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|c:\\buysel\\buyselwebapi\\endpoint\\userep.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|solutionrelative:endpoint\\userep.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|c:\\buysel\\buyselwebapi\\model\\property.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|solutionrelative:model\\property.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|c:\\buysel\\buyselwebapi\\endpoint\\userpropertyfavep.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|solutionrelative:endpoint\\userpropertyfavep.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|c:\\buysel\\buyselwebapi\\model\\userpropertyfavs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|solutionrelative:model\\userpropertyfavs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|c:\\buysel\\buyselwebapi\\endpoint\\pushsubscriptionep.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|solutionrelative:endpoint\\pushsubscriptionep.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|c:\\buysel\\buyselwebapi\\model\\audit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|solutionrelative:model\\audit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|c:\\buysel\\buyselwebapi\\model\\conversations.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|solutionrelative:model\\conversations.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|c:\\buysel\\buyselwebapi\\model\\propertybuyerdoc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|solutionrelative:model\\propertybuyerdoc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|c:\\buysel\\buyselwebapi\\endpoint\\propertyphotoep.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|solutionrelative:endpoint\\propertyphotoep.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|c:\\buysel\\buyselwebapi\\endpoint\\messageep.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|solutionrelative:endpoint\\messageep.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|c:\\buysel\\buyselwebapi\\model\\pushsubscription.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|solutionrelative:model\\pushsubscription.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|c:\\buysel\\buyselwebapi\\model\\propertyphoto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|solutionrelative:model\\propertyphoto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|c:\\buysel\\buyselwebapi\\endpoint\\badgeep.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|solutionrelative:endpoint\\badgeep.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|c:\\buysel\\buyselwebapi\\model\\badge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CA793C85-B707-4F59-8F7D-49CD87E6208F}|buyselwebapi.csproj|solutionrelative:model\\badge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "OfferCondition.cs",
+              "DocumentMoniker": "C:\\buysel\\buyselwebapi\\model\\OfferCondition.cs",
+              "RelativeDocumentMoniker": "model\\OfferCondition.cs",
+              "ToolTip": "C:\\buysel\\buyselwebapi\\model\\OfferCondition.cs",
+              "RelativeToolTip": "model\\OfferCondition.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-07T13:47:29.99Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "offerConditionEP.cs",
+              "DocumentMoniker": "C:\\buysel\\buyselwebapi\\endpoint\\offerConditionEP.cs",
+              "RelativeDocumentMoniker": "endpoint\\offerConditionEP.cs",
+              "ToolTip": "C:\\buysel\\buyselwebapi\\endpoint\\offerConditionEP.cs",
+              "RelativeToolTip": "endpoint\\offerConditionEP.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAAawEIAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-07T13:46:30.144Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "offerEP.cs",
+              "DocumentMoniker": "C:\\buysel\\buyselwebapi\\endpoint\\offerEP.cs",
+              "RelativeDocumentMoniker": "endpoint\\offerEP.cs",
+              "ToolTip": "C:\\buysel\\buyselwebapi\\endpoint\\offerEP.cs",
+              "RelativeToolTip": "endpoint\\offerEP.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAgwCcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-28T10:01:39.62Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "userpropertyfavEP.cs",
+              "DocumentMoniker": "C:\\buysel\\buyselwebapi\\endpoint\\userpropertyfavEP.cs",
+              "RelativeDocumentMoniker": "endpoint\\userpropertyfavEP.cs",
+              "ToolTip": "C:\\buysel\\buyselwebapi\\endpoint\\userpropertyfavEP.cs",
+              "RelativeToolTip": "endpoint\\userpropertyfavEP.cs",
+              "ViewState": "AgIAACkAAAAAAAAAAAAgwDIAAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-25T06:46:18.76Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "propertyEP.cs",
+              "DocumentMoniker": "C:\\buysel\\buyselwebapi\\endpoint\\propertyEP.cs",
+              "RelativeDocumentMoniker": "endpoint\\propertyEP.cs",
+              "ToolTip": "C:\\buysel\\buyselwebapi\\endpoint\\propertyEP.cs",
+              "RelativeToolTip": "endpoint\\propertyEP.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-25T06:08:12.087Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "userEP.cs",
+              "DocumentMoniker": "C:\\buysel\\buyselwebapi\\endpoint\\userEP.cs",
+              "RelativeDocumentMoniker": "endpoint\\userEP.cs",
+              "ToolTip": "C:\\buysel\\buyselwebapi\\endpoint\\userEP.cs",
+              "RelativeToolTip": "endpoint\\userEP.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-16T07:21:36.175Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "propertyphotoEP.cs",
+              "DocumentMoniker": "C:\\buysel\\buyselwebapi\\endpoint\\propertyphotoEP.cs",
+              "RelativeDocumentMoniker": "endpoint\\propertyphotoEP.cs",
+              "ToolTip": "C:\\buysel\\buyselwebapi\\endpoint\\propertyphotoEP.cs",
+              "RelativeToolTip": "endpoint\\propertyphotoEP.cs",
+              "ViewState": "AgIAADMAAAAAAAAAAAAqwEEAAACEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-17T07:11:53.597Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\buysel\\buyselwebapi\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\buysel\\buyselwebapi\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAKcAAAAAAAAAAAAwwLcAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-05T01:55:03.5Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "property.cs",
+              "DocumentMoniker": "C:\\buysel\\buyselwebapi\\model\\property.cs",
+              "RelativeDocumentMoniker": "model\\property.cs",
+              "ToolTip": "C:\\buysel\\buyselwebapi\\model\\property.cs",
+              "RelativeToolTip": "model\\property.cs",
+              "ViewState": "AgIAAEsAAAAAAAAAAIA2wFAAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-25T06:08:06.785Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "userpropertyfavs.cs",
+              "DocumentMoniker": "C:\\buysel\\buyselwebapi\\model\\userpropertyfavs.cs",
+              "RelativeDocumentMoniker": "model\\userpropertyfavs.cs",
+              "ToolTip": "C:\\buysel\\buyselwebapi\\model\\userpropertyfavs.cs",
+              "RelativeToolTip": "model\\userpropertyfavs.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-25T06:40:13.058Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "audit.cs",
+              "DocumentMoniker": "C:\\buysel\\buyselwebapi\\model\\audit.cs",
+              "RelativeDocumentMoniker": "model\\audit.cs",
+              "ToolTip": "C:\\buysel\\buyselwebapi\\model\\audit.cs",
+              "RelativeToolTip": "model\\audit.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAA1wAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-01T11:39:53.503Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "pushsubscriptionEP.cs",
+              "DocumentMoniker": "C:\\buysel\\buyselwebapi\\endpoint\\pushsubscriptionEP.cs",
+              "RelativeDocumentMoniker": "endpoint\\pushsubscriptionEP.cs",
+              "ToolTip": "C:\\buysel\\buyselwebapi\\endpoint\\pushsubscriptionEP.cs",
+              "RelativeToolTip": "endpoint\\pushsubscriptionEP.cs",
+              "ViewState": "AgIAAOQAAAAAAAAAAAAiwO8AAACiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-18T02:39:55.031Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "messageEP.cs",
+              "DocumentMoniker": "C:\\buysel\\buyselwebapi\\endpoint\\messageEP.cs",
+              "RelativeDocumentMoniker": "endpoint\\messageEP.cs",
+              "ToolTip": "C:\\buysel\\buyselwebapi\\endpoint\\messageEP.cs",
+              "RelativeToolTip": "endpoint\\messageEP.cs",
+              "ViewState": "AgIAAGgAAAAAAAAAAAAIwHUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-18T13:23:26.058Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Conversations.cs",
+              "DocumentMoniker": "C:\\buysel\\buyselwebapi\\model\\Conversations.cs",
+              "RelativeDocumentMoniker": "model\\Conversations.cs",
+              "ToolTip": "C:\\buysel\\buyselwebapi\\model\\Conversations.cs",
+              "RelativeToolTip": "model\\Conversations.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAAAQwDQAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-31T04:15:42.229Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "PropertyBuyerDoc.cs",
+              "DocumentMoniker": "C:\\buysel\\buyselwebapi\\model\\PropertyBuyerDoc.cs",
+              "RelativeDocumentMoniker": "model\\PropertyBuyerDoc.cs",
+              "ToolTip": "C:\\buysel\\buyselwebapi\\model\\PropertyBuyerDoc.cs",
+              "RelativeToolTip": "model\\PropertyBuyerDoc.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAxwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-09T11:51:54.603Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "PushSubscription.cs",
+              "DocumentMoniker": "C:\\buysel\\buyselwebapi\\model\\PushSubscription.cs",
+              "RelativeDocumentMoniker": "model\\PushSubscription.cs",
+              "ToolTip": "C:\\buysel\\buyselwebapi\\model\\PushSubscription.cs",
+              "RelativeToolTip": "model\\PushSubscription.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-31T04:14:07.522Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "propertyphoto.cs",
+              "DocumentMoniker": "C:\\buysel\\buyselwebapi\\model\\propertyphoto.cs",
+              "RelativeDocumentMoniker": "model\\propertyphoto.cs",
+              "ToolTip": "C:\\buysel\\buyselwebapi\\model\\propertyphoto.cs",
+              "RelativeToolTip": "model\\propertyphoto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-19T20:59:48.774Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "badge.cs",
+              "DocumentMoniker": "C:\\buysel\\buyselwebapi\\model\\badge.cs",
+              "RelativeDocumentMoniker": "model\\badge.cs",
+              "ToolTip": "C:\\buysel\\buyselwebapi\\model\\badge.cs",
+              "RelativeToolTip": "model\\badge.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-13T22:46:16.569Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "badgeEP.cs",
+              "DocumentMoniker": "C:\\buysel\\buyselwebapi\\endpoint\\badgeEP.cs",
+              "RelativeDocumentMoniker": "endpoint\\badgeEP.cs",
+              "ToolTip": "C:\\buysel\\buyselwebapi\\endpoint\\badgeEP.cs",
+              "RelativeToolTip": "endpoint\\badgeEP.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAIBJwAwAAABPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-13T22:50:46.829Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
