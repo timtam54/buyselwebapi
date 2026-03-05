@@ -41,3 +41,5 @@ Desktop.ini
 
 ## Secrets
 appsettings.Development.json
+.claude
+.vs

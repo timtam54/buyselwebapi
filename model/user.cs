@@ -1,7 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace buyselwebapi.model
 {
+    [NotMapped]
+    public class Cred
+    {
+        public string username { get; set; }
+        public string? password { get; set; }
+    }
+    [NotMapped]
+    public class tokenadmin
+    {
+        public string? token { get; set; }
+        public bool ok { get; set; }
+        public string? username { get; set; }
+    }
     public class OAuthUserRequest
     {
         [Required]

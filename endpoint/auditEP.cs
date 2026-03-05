@@ -1,20 +1,29 @@
-﻿
 using buyselwebapi.data;
 using buyselwebapi.model;
 using Microsoft.EntityFrameworkCore;
-using System.Net;
+using System.Security.Claims;
 
-namespace IncidentWebAPI.endpoint
+namespace buyselwebapi.endpoint
 {
+    /// <summary>
+    /// Audit endpoints: logging and viewing user activity.
+    /// POST /audit is public (used for frontend analytics tracking).
+    /// All read/delete endpoints are admin-only. clearaudit uses DELETE method.
+    /// The static Audit() method is called from other endpoints to log actions.
+    /// </summary>
     public static class auditEP
     {
+        /// <summary>
+        /// Creates an audit log entry. Called from other endpoints to record user actions.
+        /// Attempts to carry forward the IP address from the user's most recent audit entry.
+        /// </summary>
         public static async Task Audit(string id, dbcontext db, string page, string action, int? propertyid)
         {
             Audit aud = new Audit();
-            aud.propertyid=propertyid;
+            aud.propertyid = propertyid;
             aud.id = 0;
             aud.page = page;
-            aud.dte = DateTime.Now;
+            aud.dte = DateTime.UtcNow;
             aud.action = action;
             aud.username = id;
             try
@@ -34,53 +43,65 @@ namespace IncidentWebAPI.endpoint
 
             var group = routes.MapGroup("/api/audit").WithTags(nameof(auditEP));
 
-          
-
-            group.MapGet("/clearaudit", async (dbcontext db) =>
+            // Admin only - clear audit logs
+            group.MapDelete("/clearaudit", async (dbcontext db, ClaimsPrincipal principal) =>
             {
+                if (!await AuthHelper.IsAdmin(principal, db))
+                    return Results.Forbid();
+
                 await db.Database.ExecuteSqlAsync($"exec clearaudit");
-                return;
+                return Results.NoContent();
             })
        .WithName("clearaudit")
        .WithOpenApi();
 
-           group.MapGet("/summary/", async (dbcontext db) =>
+            // Admin only - audit summary
+            group.MapGet("/summary/", async (dbcontext db, ClaimsPrincipal principal) =>
             {
-                var sched = await db.audsummary.FromSqlRaw($"exec companyauditsummary").ToListAsync();
-                return sched;
+                if (!await AuthHelper.IsAdmin(principal, db))
+                    return Results.Forbid();
+
+                var sched = await db.audsummary.FromSqlInterpolated($"exec companyauditsummary").ToListAsync();
+                return Results.Ok(sched);
             })
          .WithName("Getauditsum")
          .WithOpenApi();
 
-            group.MapGet("/", async (dbcontext db) =>
+            // Admin only - view all audit logs
+            group.MapGet("/", async (dbcontext db, ClaimsPrincipal principal, int page = 1, int pageSize = 100) =>
             {
-                // var sched = await (from au in db.audit join us in db.user on au.username equals us.username join si in db.companysite on us.companyid equals si.id join co in db.company on si.companyid equals co.id orderby au.dte descending select new audco { username=au.username, company=co.companyname, action=au.action, page=au.page, dte=au.dte, id=au.id } ).Take(300).ToListAsync();
-                var sched = await db.audit.OrderByDescending(i => i.dte).Take(300).ToListAsync();
-                return sched;
+                if (!await AuthHelper.IsAdmin(principal, db))
+                    return Results.Forbid();
+
+                pageSize = Math.Clamp(pageSize, 1, 300);
+                var sched = await db.audit
+                    .OrderByDescending(i => i.dte)
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+                return Results.Ok(sched);
             })
             .WithName("Getaudit")
             .WithOpenApi();
 
-            group.MapGet("/{id}", async (int id,dbcontext db) =>
+            // Admin only - view audit for specific property
+            group.MapGet("/{id}", async (int id, dbcontext db, ClaimsPrincipal principal) =>
             {
-                // var sched = await (from au in db.audit join us in db.user on au.username equals us.username join si in db.companysite on us.companyid equals si.id join co in db.company on si.companyid equals co.id orderby au.dte descending select new audco { username=au.username, company=co.companyname, action=au.action, page=au.page, dte=au.dte, id=au.id } ).Take(300).ToListAsync();
-                var sched = await db.audit.Where(i=>i.propertyid==id).OrderByDescending(i => i.dte).Take(300).ToListAsync();
-                return sched;
+                if (!await AuthHelper.IsAdmin(principal, db))
+                    return Results.Forbid();
+
+                var sched = await db.audit.Where(i => i.propertyid == id).OrderByDescending(i => i.dte).Take(300).ToListAsync();
+                return Results.Ok(sched);
             })
           .WithName("Getauditprop")
           .WithOpenApi();
 
-         /*   group.MapPut("/", async (Audit audit, dbcontext db) =>
+            // Admin only - delete audit entry
+            group.MapDelete("/{id}", async (int id, dbcontext db, ClaimsPrincipal principal) =>
             {
-                db.audit.Update(audit);
-                await db.SaveChangesAsync();
-                return Results.NoContent();
-            })
-                .WithName("Putaudit")
-                .WithOpenApi();*/
+                if (!await AuthHelper.IsAdmin(principal, db))
+                    return Results.Forbid();
 
-            group.MapDelete("/{id}", async (int id, dbcontext db) =>
-            {
                 var audit = await db.audit.FindAsync(id);
                 if (audit == null)
                 {
@@ -93,18 +114,20 @@ namespace IncidentWebAPI.endpoint
                 .WithName("Deleteaudit")
                 .WithOpenApi();
 
+            // Public - analytics tracking
             group.MapPost("/", async (Audit audit, dbcontext db) =>
             {
+                if (string.IsNullOrWhiteSpace(audit.action) || string.IsNullOrWhiteSpace(audit.page))
+                {
+                    return Results.BadRequest(new { error = "Action and page are required" });
+                }
                 db.Add(audit);
-                audit.dte = DateTime.UtcNow.AddHours(10);
-
+                audit.dte = DateTime.UtcNow;
                 await db.SaveChangesAsync();
                 return Results.NoContent();
-            })
+            }).AllowAnonymous()
                 .WithName("Postaudit")
                 .WithOpenApi();
         }
     }
-
-   
 }

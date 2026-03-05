@@ -17,8 +17,8 @@ namespace buyselwebapi.model
         public int? inspection_days { get; set; }
         public string? conditions_json { get; set; }
         public DateTime? expires_at { get; set; }
-        public DateTime created_at { get; set; } = DateTime.Now;
-        public DateTime updated_at { get; set; } = DateTime.Now;
+        public DateTime created_at { get; set; } = DateTime.UtcNow;
+        public DateTime updated_at { get; set; } = DateTime.UtcNow;
         public int? parent_offer_id { get; set; }
        // public virtual Offer? parent_offer { get; set; }
         public int version { get; set; } = 1;

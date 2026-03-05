@@ -1,66 +1,120 @@
-﻿using buyselwebapi.data;
+using buyselwebapi.data;
 using buyselwebapi.model;
-using IncidentWebAPI.endpoint;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
+using System.Security.Claims;
 
 namespace buyselwebapi.endpoint
 {
+    /// <summary>
+    /// Conversation endpoints: buyer-seller messaging threads.
+    /// Access: Only conversation participants (buyer_id or seller_id) can view/modify.
+    /// buyer_id is forced to current user on create. Uses parameterized SQL for unread counts.
+    /// </summary>
     public static class conversationEP
     {
         public static void MapConversationEndpoints(this IEndpointRouteBuilder routes)
         {
             var group = routes.MapGroup("/api/conversation").WithTags(nameof(conversationEP));
 
-
-            group.MapGet("/unread/{userId}", async (int userId, dbcontext db) =>
+            // Only the user themselves can check their unread count
+            group.MapGet("/unread/{userId}", async (int userId, dbcontext db, ClaimsPrincipal principal) =>
             {
-                var sched = await db.conversationcount.FromSqlRaw($"exec unreadConv {userId}").ToListAsync();
-                return sched;
+                var currentUser = await AuthHelper.GetCurrentUser(principal, db);
+                if (currentUser == null) return Results.Unauthorized();
+                if (currentUser.admin != true && currentUser.id != userId)
+                    return Results.Forbid();
+
+                var sched = await db.conversationcount.FromSqlInterpolated($"exec unreadConv {userId}").ToListAsync();
+                return Results.Ok(sched);
             })
            .WithName("GetUnreadConv")
            .WithOpenApi();
 
-            group.MapGet("/{id}", async (int id, dbcontext db) =>
+            // Only participants can view a conversation
+            group.MapGet("/{id}", async (int id, dbcontext db, ClaimsPrincipal principal) =>
             {
+                var currentUser = await AuthHelper.GetCurrentUser(principal, db);
+                if (currentUser == null) return Results.Unauthorized();
+
                 var conv = await db.conversation.FindAsync(id);
-                return conv;//is not null ? Results.Ok(conv) : Results.NotFound();
+                if (conv == null) return Results.NotFound();
+
+                if (currentUser.admin != true && currentUser.id != conv.buyer_id && currentUser.id != conv.seller_id)
+                    return Results.Forbid();
+
+                return Results.Ok(conv);
             })
             .WithName("GetConversation")
             .WithOpenApi();
-            group.MapGet("/user/{id}", async (int id, dbcontext db) =>
+
+            // Users can only view their own conversations
+            group.MapGet("/user/{id}", async (int id, dbcontext db, ClaimsPrincipal principal) =>
             {
-                var conv = await db.conversation.Where(i=>i.buyer_id==id || i.seller_id==id).ToListAsync();
-                return conv;//is not null ? Results.Ok(conv) : Results.NotFound();
+                var currentUser = await AuthHelper.GetCurrentUser(principal, db);
+                if (currentUser == null) return Results.Unauthorized();
+                if (currentUser.admin != true && currentUser.id != id)
+                    return Results.Forbid();
+
+                var conv = await db.conversation.Where(i => i.buyer_id == id || i.seller_id == id).ToListAsync();
+                return Results.Ok(conv);
             })
      .WithName("GetConversationUser")
      .WithOpenApi();
-            group.MapGet("/property/{propertyId}", async (int propertyId, dbcontext db) =>
+
+            // Only the property seller or admin can view conversations for a property
+            group.MapGet("/property/{propertyId}", async (int propertyId, dbcontext db, ClaimsPrincipal principal) =>
             {
+                var currentUser = await AuthHelper.GetCurrentUser(principal, db);
+                if (currentUser == null) return Results.Unauthorized();
+
+                var prop = await db.property.FindAsync(propertyId);
+                if (prop == null) return Results.NotFound();
+
+                if (currentUser.admin != true && currentUser.id != prop.sellerid)
+                    return Results.Forbid();
+
                 var convs = await db.conversation.Where(c => c.property_id == propertyId).ToListAsync();
-                return convs;
+                return Results.Ok(convs);
             })
             .WithName("GetConversationsByProperty")
             .WithOpenApi();
 
-            group.MapGet("/buyer/{buyerId}", async (int buyerId, dbcontext db) =>
+            // Users can only view their own conversations as buyer
+            group.MapGet("/buyer/{buyerId}", async (int buyerId, dbcontext db, ClaimsPrincipal principal) =>
             {
+                var currentUser = await AuthHelper.GetCurrentUser(principal, db);
+                if (currentUser == null) return Results.Unauthorized();
+                if (currentUser.admin != true && currentUser.id != buyerId)
+                    return Results.Forbid();
+
                 var convs = await db.conversation.Where(c => c.buyer_id == buyerId).ToListAsync();
-                return convs;
+                return Results.Ok(convs);
             })
             .WithName("GetConversationsByBuyer")
             .WithOpenApi();
 
-            group.MapGet("/seller/{sellerId}", async (int sellerId, dbcontext db) =>
+            // Users can only view their own conversations as seller
+            group.MapGet("/seller/{sellerId}", async (int sellerId, dbcontext db, ClaimsPrincipal principal) =>
             {
+                var currentUser = await AuthHelper.GetCurrentUser(principal, db);
+                if (currentUser == null) return Results.Unauthorized();
+                if (currentUser.admin != true && currentUser.id != sellerId)
+                    return Results.Forbid();
+
                 var convs = await db.conversation.Where(c => c.seller_id == sellerId).ToListAsync();
-                return convs;
+                return Results.Ok(convs);
             })
             .WithName("GetConversationsBySeller")
             .WithOpenApi();
 
-            group.MapPut("/", async (Conversation conv, dbcontext db) =>
+            // Only participants can update a conversation
+            group.MapPut("/", async (Conversation conv, dbcontext db, ClaimsPrincipal principal) =>
             {
+                var currentUser = await AuthHelper.GetCurrentUser(principal, db);
+                if (currentUser == null) return Results.Unauthorized();
+                if (currentUser.admin != true && currentUser.id != conv.buyer_id && currentUser.id != conv.seller_id)
+                    return Results.Forbid();
+
                 db.conversation.Update(conv);
                 await db.SaveChangesAsync();
                 return Results.NoContent();
@@ -68,13 +122,21 @@ namespace buyselwebapi.endpoint
             .WithName("PutConversation")
             .WithOpenApi();
 
-            group.MapDelete("/{id}", async (int id, dbcontext db) =>
+            // Only participants or admin can delete a conversation
+            group.MapDelete("/{id}", async (int id, dbcontext db, ClaimsPrincipal principal) =>
             {
+                var currentUser = await AuthHelper.GetCurrentUser(principal, db);
+                if (currentUser == null) return Results.Unauthorized();
+
                 var conv = await db.conversation.FindAsync(id);
                 if (conv == null)
                 {
                     return Results.NotFound();
                 }
+
+                if (currentUser.admin != true && currentUser.id != conv.buyer_id && currentUser.id != conv.seller_id)
+                    return Results.Forbid();
+
                 db.conversation.Remove(conv);
                 await db.SaveChangesAsync();
                 return Results.NoContent();
@@ -82,19 +144,30 @@ namespace buyselwebapi.endpoint
             .WithName("DeleteConversation")
             .WithOpenApi();
 
-            group.MapPost("/", async (Conversation conv, dbcontext db) =>
+            // buyer_id is forced to current user
+            group.MapPost("/", async (Conversation conv, dbcontext db, ClaimsPrincipal principal, ILogger<dbcontext> logger) =>
             {
-                db.Add(conv);
+                var currentUser = await AuthHelper.GetCurrentUser(principal, db);
+                if (currentUser == null) return Results.Unauthorized();
+
+                if (conv.property_id <= 0 || conv.seller_id <= 0)
+                {
+                    return Results.BadRequest(new { error = "property_id and seller_id are required" });
+                }
+
+                // Force buyer to current user
+                conv.buyer_id = currentUser.id;
                 conv.created_at = DateTime.UtcNow;
+                db.Add(conv);
                 await db.SaveChangesAsync();
                 try
                 {
-                    var buyer = await db.user.Where(i => i.id == conv.buyer_id).FirstOrDefaultAsync();
                     var seller = await db.user.Where(i => i.id == conv.seller_id).FirstOrDefaultAsync();
-                    await auditEP.Audit(buyer.email, db, "Chat", "Initiated Conversation with Seller " + seller.email,0);
+                    await auditEP.Audit(currentUser.email, db, "Chat", "Initiated Conversation with Seller " + seller.email, 0);
                 }
                 catch (Exception ex)
                 {
+                    logger.LogWarning(ex, "Failed to create audit entry for conversation {ConversationId}", conv.id);
                 }
                 return Results.Created($"/api/conversation/{conv.id}", conv);
             })

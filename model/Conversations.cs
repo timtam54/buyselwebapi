@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace buyselwebapi.model
 {
@@ -59,19 +58,4 @@ namespace buyselwebapi.model
             public string? bloburl { get; set; }
     }
 
-        public class PushSubscriptionOLD
-        {
-            [Key]
-            [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-            public int id { get; set; }
-
-            [Required]
-            public int user_id { get; set; }
-
-            [Required]
-            [Column(TypeName = "nvarchar(max)")]
-            public string subscription_data { get; set; }
-
-            public DateTime created_at { get; set; } = DateTime.UtcNow;
-        }
     }

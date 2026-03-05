@@ -1,59 +1,71 @@
-﻿
 using buyselwebapi.data;
 using buyselwebapi.model;
 using Microsoft.EntityFrameworkCore;
-using System.Net;
+using System.Security.Claims;
 
-namespace IncidentWebAPI.endpoint
+namespace buyselwebapi.endpoint
 {
+    /// <summary>
+    /// User property favourite endpoints: users can save/remove favourite properties.
+    /// Access: Users can only manage their own favourites. user_id forced on create.
+    /// </summary>
     public static class userpropertyfavEP
     {
-       
-
         public static void MapUserPropertyFavEndpoints(this IEndpointRouteBuilder routes)
         {
 
             var group = routes.MapGroup("/api/userpropertyfav").WithTags(nameof(userpropertyfavEP));
 
-
-
-            group.MapGet("/{id}", async (int id,dbcontext db) =>
+            // Users can only view their own favourites
+            group.MapGet("/{id}", async (int id, dbcontext db, ClaimsPrincipal principal) =>
             {
-                // var sched = await (from au in db.audit join us in db.user on au.username equals us.username join si in db.companysite on us.companyid equals si.id join co in db.company on si.companyid equals co.id orderby au.dte descending select new audco { username=au.username, company=co.companyname, action=au.action, page=au.page, dte=au.dte, id=au.id } ).Take(300).ToListAsync();
-                var sched = await db.userpropertyfav.Where(i=>i.user_id==id).ToListAsync();
-                return sched;
+                var currentUser = await AuthHelper.GetCurrentUser(principal, db);
+                if (currentUser == null) return Results.Unauthorized();
+                if (currentUser.admin != true && currentUser.id != id)
+                    return Results.Forbid();
+
+                var sched = await db.userpropertyfav.Where(i => i.user_id == id).ToListAsync();
+                return Results.Ok(sched);
             })
           .WithName("Getuserpropertyfav")
           .WithOpenApi();
 
-      
-
-            group.MapDelete("/{id}", async (int id, dbcontext db) =>
+            // Users can only delete their own favourites
+            group.MapDelete("/{id}", async (int id, dbcontext db, ClaimsPrincipal principal) =>
             {
-                var audit = await db.userpropertyfav.FindAsync(id);
-                if (audit == null)
+                var currentUser = await AuthHelper.GetCurrentUser(principal, db);
+                if (currentUser == null) return Results.Unauthorized();
+
+                var fav = await db.userpropertyfav.FindAsync(id);
+                if (fav == null)
                 {
                     return Results.NotFound();
                 }
-                db.userpropertyfav.Remove(audit);
+
+                if (currentUser.admin != true && currentUser.id != fav.user_id)
+                    return Results.Forbid();
+
+                db.userpropertyfav.Remove(fav);
                 await db.SaveChangesAsync();
                 return Results.NoContent();
             })
                 .WithName("Deleteuserpropertyfav")
                 .WithOpenApi();
 
-            group.MapPost("/", async (UserPropertyFav audit, dbcontext db) =>
+            // Force user_id to current user
+            group.MapPost("/", async (UserPropertyFav fav, dbcontext db, ClaimsPrincipal principal) =>
             {
-                db.Add(audit);
-                //audit.dte = DateTime.UtcNow.AddHours(10);
+                var currentUser = await AuthHelper.GetCurrentUser(principal, db);
+                if (currentUser == null) return Results.Unauthorized();
 
+                // Force user_id to current user
+                fav.user_id = currentUser.id;
+                db.Add(fav);
                 await db.SaveChangesAsync();
-                return Results.Created($"/api/userpropertyfav/{audit.id}", audit);
+                return Results.Created($"/api/userpropertyfav/{fav.id}", fav);
             })
                 .WithName("Postuserpropertyfav")
                 .WithOpenApi();
         }
     }
-
-   
 }
