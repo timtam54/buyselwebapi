@@ -143,7 +143,7 @@ namespace buyselwebapi.endpoint
 
                 pageSize = Math.Clamp(pageSize, 1, 100);
                 var sched = await db.user
-                    .OrderByDescending(i => i.dte)
+                    .OrderByDescending(i => i.dte)  
                     .Skip((page - 1) * pageSize)
                     .Take(pageSize)
                     .ToListAsync();

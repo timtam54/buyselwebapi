@@ -7,11 +7,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Threading.RateLimiting;
 
-// ============================================================================
-// BuySel Web API - ASP.NET Core 8 Minimal API
-// Real estate marketplace backend: property listings, offers, messaging, push
-// Auth: JWT Bearer tokens issued by NextAuth (frontend), validated here
-// ============================================================================
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,7 +61,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     o.RequireHttpsMetadata = !builder.Environment.IsDevelopment();
     o.TokenValidationParameters = new TokenValidationParameters
     {
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("BuySellCharterTowers")),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("BuySellCharterTowers123456789012")),
         ValidIssuer = "BuySell",
         ValidAudience = "CharterTowers",
         ClockSkew = TimeSpan.Zero
