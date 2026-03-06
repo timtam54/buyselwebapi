@@ -59,12 +59,59 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 {
     // #8 - Enforce HTTPS in production
     o.RequireHttpsMetadata = !builder.Environment.IsDevelopment();
+
+    // Use the legacy JwtSecurityTokenHandler for compatibility
+    o.UseSecurityTokenValidators = true;
+
     o.TokenValidationParameters = new TokenValidationParameters
     {
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("BuySellCharterTowers123456789012")),
         ValidIssuer = "BuySell",
         ValidAudience = "CharterTowers",
+        ValidateIssuerSigningKey = true,
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
         ClockSkew = TimeSpan.Zero
+    };
+    o.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var authHeader = context.Request.Headers["Authorization"].FirstOrDefault();
+            Console.WriteLine($"Auth Header: {authHeader?.Substring(0, Math.Min(authHeader?.Length ?? 0, 80))}...");
+            if (authHeader?.StartsWith("Bearer ") == true)
+            {
+                var token = authHeader.Substring(7);
+                var parts = token.Split('.');
+                Console.WriteLine($"Token parts: {parts.Length}");
+
+                // Explicitly set the token to ensure the handler gets it correctly
+                context.Token = token;
+
+                if (parts.Length >= 2)
+                {
+                    try
+                    {
+                        var payload = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(parts[1].PadRight((parts[1].Length + 3) / 4 * 4, '=')));
+                        Console.WriteLine($"Payload: {payload}");
+                    }
+                    catch (Exception ex) { Console.WriteLine($"Decode error: {ex.Message}"); }
+                }
+            }
+            return Task.CompletedTask;
+        },
+        OnAuthenticationFailed = context =>
+        {
+            Console.WriteLine($"JWT Auth Failed: {context.Exception.GetType().Name}: {context.Exception.Message}");
+            return Task.CompletedTask;
+        },
+        OnTokenValidated = context =>
+        {
+            Console.WriteLine($"JWT Token Validated for: {context.Principal?.Identity?.Name}");
+            Console.WriteLine($"Claims: {string.Join(", ", context.Principal?.Claims.Select(c => c.Type + "=" + c.Value) ?? Array.Empty<string>())}");
+            return Task.CompletedTask;
+        }
     };
 });
 
