@@ -60,8 +60,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     // #8 - Enforce HTTPS in production
     o.RequireHttpsMetadata = !builder.Environment.IsDevelopment();
 
-    // Use the legacy JwtSecurityTokenHandler for compatibility
-    o.UseSecurityTokenValidators = true;
+    // Explicitly use the legacy JwtSecurityTokenHandler for Azure compatibility
+    o.SecurityTokenValidators.Clear();
+    o.SecurityTokenValidators.Add(new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler());
 
     o.TokenValidationParameters = new TokenValidationParameters
     {
