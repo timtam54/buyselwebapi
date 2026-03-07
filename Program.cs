@@ -132,7 +132,7 @@ builder.Services.AddDbContext<dbcontext>(options =>
 var app = builder.Build();
 
 // #14 - Only expose Swagger in development
-if (app.Environment.IsDevelopment())
+//if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
