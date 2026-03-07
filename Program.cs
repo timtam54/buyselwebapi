@@ -20,7 +20,14 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins(
                 "http://localhost:3000",
-                "https://buysel-webapp.azurewebsites.net"
+                "http://localhost:5005",
+                "http://localhost:5000",
+                "http://localhost:7188",
+                "https://localhost:5005",
+                "https://localhost:5000",
+                "https://localhost:7188",
+                "https://buysel-webapp.azurewebsites.net",
+                "https://buysel.azurewebsites.net"
             )
             .AllowAnyHeader()
             .AllowAnyMethod()
