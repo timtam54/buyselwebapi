@@ -19,15 +19,16 @@ namespace buyselwebapi.endpoint
         /// Geocodes properties missing lat/lon using Google Maps Geocoding API.
         /// Called on property list endpoints to fill in coordinates lazily.
         /// </summary>
-        async static Task<List<Property>> latlon(List<Property> data, dbcontext db, IHttpClientFactory httpFactory)
+        async static Task<List<Property>> latlon(List<Property> data, dbcontext db, IHttpClientFactory httpFactory, IConfiguration config)
         {
+            var googleMapsApiKey = config["GOOGLE_MAPS_API_KEY"] ?? Environment.GetEnvironmentVariable("GOOGLE_MAPS_API_KEY") ?? "";
             foreach (var item in data)
             {
                 if (item.id != null)
                 {
                     if (item.lon == 0 || item.lon == null || item.lat == 0 || item.lat == null)
                     {
-                        var uri = "/maps/api/geocode/json?address=" + item.address.Replace(" ", "~").Replace("#", "") + "~Australia&key=AIzaSyANThwic7Udj0r5ulBoPN9Dp2lSwJKOAK4";
+                        var uri = "/maps/api/geocode/json?address=" + item.address.Replace(" ", "~").Replace("#", "") + "~Australia&key=" + googleMapsApiKey;
                         var client = httpFactory.CreateClient("GoogleMaps");
                         try
                         {
@@ -73,7 +74,7 @@ namespace buyselwebapi.endpoint
             .WithOpenApi();
 
             // Seller can only view their own properties by ID
-            group.MapGet("/seller/{id}", async (int id, dbcontext db, IHttpClientFactory httpFactory, ClaimsPrincipal principal) =>
+            group.MapGet("/seller/{id}", async (int id, dbcontext db, IHttpClientFactory httpFactory, IConfiguration config, ClaimsPrincipal principal) =>
             {
                 // TODO: Re-enable auth check after testing
                 // var currentUser = await AuthHelper.GetCurrentUser(principal, db);
@@ -82,17 +83,17 @@ namespace buyselwebapi.endpoint
                 //     return Results.Forbid();
 
                 var sched = await db.property.Where(i => i.sellerid == id).ToListAsync();
-                var xx = await latlon(sched, db, httpFactory);
+                var xx = await latlon(sched, db, httpFactory, config);
                 return Results.Ok(AddPic(xx, db));
             })
             .WithName("GetpropertybySeller")
             .WithOpenApi();
 
             // Public - view seller's listings by email
-            group.MapGet("/sellerusername/{id}", async (string id, dbcontext db, IHttpClientFactory httpFactory, ILogger<dbcontext> logger) =>
+            group.MapGet("/sellerusername/{id}", async (string id, dbcontext db, IHttpClientFactory httpFactory, IConfiguration config, ILogger<dbcontext> logger) =>
             {
                 var sched = await (from prp in db.property join usr in db.user on prp.sellerid equals usr.id where usr.email == id select prp).ToListAsync();
-                var xx = await latlon(sched, db, httpFactory);
+                var xx = await latlon(sched, db, httpFactory, config);
 
                 try
                 {
@@ -154,14 +155,14 @@ namespace buyselwebapi.endpoint
             }
 
             // Admin only - view all properties (including unpublished) with audit
-            group.MapGet("/audited/{id}", async (string id, dbcontext db, IHttpClientFactory httpFactory, ILogger<dbcontext> logger, ClaimsPrincipal principal) =>
+            group.MapGet("/audited/{id}", async (string id, dbcontext db, IHttpClientFactory httpFactory, IConfiguration config, ILogger<dbcontext> logger, ClaimsPrincipal principal) =>
             {
                 // TODO: Re-enable auth check after testing
                 // if (!await AuthHelper.IsAdmin(principal, db))
                 //     return Results.Forbid();
 
                 var sched = await db.property.ToListAsync();
-                var xx = await latlon(sched, db, httpFactory);
+                var xx = await latlon(sched, db, httpFactory, config);
                 try
                 {
                     await auditEP.Audit(id, db, "Property", "Full Select", 0);
@@ -176,13 +177,13 @@ namespace buyselwebapi.endpoint
        .WithOpenApi();
 
             // Public - browse published properties
-            group.MapGet("/", async (dbcontext db, IHttpClientFactory httpFactory) =>
+            group.MapGet("/", async (dbcontext db, IHttpClientFactory httpFactory, IConfiguration config) =>
             {
                 var sched = await db.property
                     .Where(i => i.status == "published")
                     .OrderByDescending(i => i.dte)
                     .ToListAsync();
-                var xx = await latlon(sched, db, httpFactory);
+                var xx = await latlon(sched, db, httpFactory, config);
                 return Results.Ok(AddPic(xx, db));
             })
        .AllowAnonymous()
@@ -190,7 +191,7 @@ namespace buyselwebapi.endpoint
        .WithOpenApi();
 
             // Admin only - view all properties (including draft/rejected)
-            group.MapGet("/all/", async (dbcontext db, IHttpClientFactory httpFactory, ClaimsPrincipal principal) =>
+            group.MapGet("/all/", async (dbcontext db, IHttpClientFactory httpFactory, IConfiguration config, ClaimsPrincipal principal) =>
             {
                 // TODO: Re-enable auth check after testing
                 // if (!await AuthHelper.IsAdmin(principal, db))
@@ -199,13 +200,13 @@ namespace buyselwebapi.endpoint
                 var sched = await db.property
                     .OrderByDescending(i => i.dte)
                     .ToListAsync();
-                var xx = await latlon(sched, db, httpFactory);
+                var xx = await latlon(sched, db, httpFactory, config);
                 return Results.Ok(AddPic(xx, db));
             })
       .WithName("Getpropertysall")
       .WithOpenApi();
 
-            group.MapGet("/favs/{id}", async (string id, dbcontext db, IHttpClientFactory httpFactory, ClaimsPrincipal principal) =>
+            group.MapGet("/favs/{id}", async (string id, dbcontext db, IHttpClientFactory httpFactory, IConfiguration config, ClaimsPrincipal principal) =>
             {
                 // TODO: Re-enable auth check after testing
                 // var currentUser = await AuthHelper.GetCurrentUser(principal, db);
@@ -218,17 +219,17 @@ namespace buyselwebapi.endpoint
                     return Results.NotFound();
                 var favs = await db.userpropertyfav.Where(i => i.user_id == usr.id).ToListAsync();
                 var sched = await db.property.Where(i => i.status == "published" && favs.Select(p => p.property_id).Contains(i.id)).ToListAsync();
-                var xx = await latlon(sched, db, httpFactory);
+                var xx = await latlon(sched, db, httpFactory, config);
                 return Results.Ok(AddPic(xx, db));
             })
       .WithName("favpropertys")
       .WithOpenApi();
 
             // Public - search properties
-            group.MapGet("/postsubbedbath/{id}/{bed}/{bath}", async (string id, int beds, int baths, dbcontext db, IHttpClientFactory httpFactory) =>
+            group.MapGet("/postsubbedbath/{id}/{bed}/{bath}", async (string id, int beds, int baths, dbcontext db, IHttpClientFactory httpFactory, IConfiguration config) =>
             {
                 var sched = await db.property.Where(i => i.status == "published" && (i.postcode == id || i.suburb == id || id == "~") && (i.beds == beds || beds == 0) && (i.baths == baths || baths == 0)).ToListAsync();
-                var xx = await latlon(sched, db, httpFactory);
+                var xx = await latlon(sched, db, httpFactory, config);
                 return AddPic(xx, db);
             })
    .AllowAnonymous()
@@ -236,10 +237,10 @@ namespace buyselwebapi.endpoint
    .WithOpenApi();
 
             // Public - search properties with audit
-            group.MapGet("/postsubbedbath/{id}/{bed}/{bath}/{user}", async (string id, int beds, int baths, string user, dbcontext db, IHttpClientFactory httpFactory, ILogger<dbcontext> logger) =>
+            group.MapGet("/postsubbedbath/{id}/{bed}/{bath}/{user}", async (string id, int beds, int baths, string user, dbcontext db, IHttpClientFactory httpFactory, IConfiguration config, ILogger<dbcontext> logger) =>
             {
                 var sched = await db.property.Where(i => (i.postcode == id || i.suburb == id || id == "~") && (i.beds == beds || beds == 0) && (i.baths == baths || baths == 0)).ToListAsync();
-                var xx = await latlon(sched, db, httpFactory);
+                var xx = await latlon(sched, db, httpFactory, config);
                 try
                 {
                     await auditEP.Audit(user, db, "Property", "Search:Bed" + beds.ToString() + ",baths:" + baths.ToString() + ",postcode:" + id, 0);

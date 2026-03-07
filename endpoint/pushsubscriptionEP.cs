@@ -249,13 +249,23 @@ namespace buyselwebapi.endpoint
                     logger.LogWarning("No device token for {Email}", sub.email);
                     return 0;
                 }
-                var p8FileContents = "MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQg5OBXHYd8kzhBlg59\r\nNEdRMxZP0YL4oOscO8ufQc6ZcligCgYIKoZIzj0DAQehRANCAAQaxFX54WT09149\r\nQdQ7oW1QFEs3ZbunPYBqCVC1XpuGTCg72Tqqv/Iaptboe6NbmHYp8wpqKjixTUu3\r\neYoIsHqD";
+                // APNS credentials from config or environment variables
+                var p8FileContents = config["APNS:P8CertContent"] ?? Environment.GetEnvironmentVariable("APNS_P8_CERT_CONTENT") ?? "";
+                var bundleId = config["APNS:BundleId"] ?? Environment.GetEnvironmentVariable("APNS_BUNDLE_ID") ?? "com.jobsafepro.app";
+                var keyId = config["APNS:KeyId"] ?? Environment.GetEnvironmentVariable("APNS_KEY_ID") ?? "";
+                var teamId = config["APNS:TeamId"] ?? Environment.GetEnvironmentVariable("APNS_TEAM_ID") ?? "";
+
+                if (string.IsNullOrEmpty(p8FileContents) || string.IsNullOrEmpty(keyId) || string.IsNullOrEmpty(teamId))
+                {
+                    logger.LogWarning("APNS credentials not configured");
+                    return 0;
+                }
 
                 var options = new ApnsJwtOptions
                 {
-                    BundleId = "com.jobsafepro.app",
-                    KeyId = "QXVJA2JD43",
-                    TeamId = "B25XZGD4VW",
+                    BundleId = bundleId,
+                    KeyId = keyId,
+                    TeamId = teamId,
                     CertContent = p8FileContents
                 };
 

@@ -71,11 +71,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     o.SecurityTokenValidators.Clear();
     o.SecurityTokenValidators.Add(new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler());
 
+    // Get JWT configuration from environment or appsettings
+    var jwtSecret = builder.Configuration["JWT_SECRET"] ?? Environment.GetEnvironmentVariable("JWT_SECRET") ?? "BuySellCharterTowers123456789012";
+    var jwtIssuer = builder.Configuration["JWT_ISSUER"] ?? Environment.GetEnvironmentVariable("JWT_ISSUER") ?? "BuySell";
+    var jwtAudience = builder.Configuration["JWT_AUDIENCE"] ?? Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? "CharterTowers";
+
     o.TokenValidationParameters = new TokenValidationParameters
     {
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("BuySellCharterTowers123456789012")),
-        ValidIssuer = "BuySell",
-        ValidAudience = "CharterTowers",
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret)),
+        ValidIssuer = jwtIssuer,
+        ValidAudience = jwtAudience,
         ValidateIssuerSigningKey = true,
         ValidateIssuer = true,
         ValidateAudience = true,
@@ -123,19 +128,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     };
 });
 
-// Configure Database Context
+// Configure Database Context - Get connection string from environment or appsettings
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")
+    ?? "Server=buyselserver.database.windows.net,1433;Initial Catalog=buysel;Persist Security Info=False;User ID=buysel;Password=ABC1234!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+
 builder.Services.AddDbContext<dbcontext>(options =>
-    options.UseSqlServer(
-        "Server=buyselserver.database.windows.net,1433;" +
-        "Initial Catalog=buysel;" +
-        "Persist Security Info=False;" +
-        "User ID=buysel;" +
-        "Password=ABC1234!;" +
-        "MultipleActiveResultSets=False;" +
-        "Encrypt=True;" +
-        "TrustServerCertificate=False;" +
-        "Connection Timeout=30;"
-    ));
+    options.UseSqlServer(connectionString));
 
 var app = builder.Build();
 
