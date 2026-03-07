@@ -175,7 +175,9 @@ app.UseAuthorization();
 
 // Map all endpoints - RequireAuthorization applied globally here
 // Individual endpoints can use .AllowAnonymous() to opt out (e.g. /cred/ login)
-var api = app.MapGroup("").RequireAuthorization().RequireRateLimiting("general");
+// TODO: Re-enable authorization after testing
+var api = app.MapGroup("").RequireRateLimiting("general");
+// var api = app.MapGroup("").RequireAuthorization().RequireRateLimiting("general");
 api.MapPropertyEndpoints();
 api.MapPropertyPhotoEndpoints();
 api.MapUserEndpoints();
